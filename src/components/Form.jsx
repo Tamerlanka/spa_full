@@ -1,144 +1,166 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm } from "react-hook-form";
 import 'leaflet/dist/leaflet.css'
+import axios from 'axios'
 import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Tooltip,
-  CircleMarker,
-  Polygon,
+    MapContainer,
+    Marker,
+    Popup,
+    TileLayer,
+    Tooltip,
+    CircleMarker,
+    Polygon
 } from 'react-leaflet'
-/* Полигон не заработал хз почему
-const colorOptions = { color: 'purple' }
-const centerPolygon = [
-  [
-    [55.67428142540128, 37.01673572550138],
-    [55.670143036450916, 37.01840942375674],
-    [55.67040926177906, 37.011156731316845],
-    [55.675080011478045, 37.009740525100774],
-  ],
-]
-*/
-const center = [55.67191023776765, 37.01454708640524]
 
-/* register  -функция принимает значение которое пользователь ввел в поле и проверяет его и будет вызвана в момент отправки формы 
-handleSubmit - функция собирает поля формы в data */
+const colorOptions={color:'purple'}
+const centerPolygon=[
+    [
+        [55.790823, 37.539031],
+        [55.688479, 37.521845],
+        [55.690906, 37.775819],
+        [55.813141, 37.760065]
+    ]
+]
+const center=[55.769667, 37.627671]
+
 const Form = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
-  const onSubmit = (data) => console.log(data)
-  console.log(watch('example'))
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const onSubmit = (data) => {
+        axios.post('https://637f91ca2f8f56e28e904e7d.mockapi.io/form', data)
+        alert('Заявка отправлена')
+        console.log(data);
+
+    }
+  
   return (
     <div>
-      <form id="form" onSubmit={handleSubmit(onSubmit)}>
-        <h2>Заявка на обратную связь</h2>
-        <div className="input-group mb-3">
-          <input
+        <form id='form' onSubmit={handleSubmit(onSubmit)}>
+            <h1>Заполните заявку на обратную связь</h1>
+        <div className='input-group mb-3'>
+            <input
             {...register('lastName', {
-              required: true,
-              maxLength: 50,
-              pattern: /^[А-Яа-я]+$/i,
+                required: true,
+                maxLength:50,
+                pattern: /^[А-Яа-я]+$/i
             })}
             type="text"
-            className="form-control"
-            placeholder="Фамилия"
-          />
-          {errors?.lastName?.type === 'required' && (
-            <p>Это поле не должно быть пустым</p>
-          )}
-          {errors?.lastName?.type === 'maxLength' && <p>максимум 50 знаков</p>}
-          {errors?.lastName?.type === 'pattern' && <p>Только русский язык</p>}
-          {<br />}
+            className='form-control'
+            placeholder='Фамилия'/>
         </div>
+        {errors?.lastName?.type === 'required'&&(
+            <p>Поле обязательно для заполнения</p>
+        )}
 
-        <div>
-          <input
+        {errors?.lastName?.type === 'maxLength'&&(
+            <p>Поле не может содержать более 50 символов</p>
+        )}
+
+        {errors?.lastName?.type === 'pattern'&&(
+            <p>Поле заполненно некорректно</p>
+        )}
+
+        <div className='input-group mb-3'>
+            <input
             {...register('firstName', {
-              required: true,
-              maxLength: 50,
-              pattern: /^[А-Яа-я]+$/i,
+                required: true,
+                maxLength:50,
+                pattern: /^[А-Яа-я]+$/i
             })}
             type="text"
-            className="form-control"
-            placeholder="Имя"
-          />
-          {errors?.firstName?.type === 'required' && (
-            <p>Это поле не должно быть пустым</p>
-          )}
-          {errors?.firstName?.type === 'maxLength' && <p>максимум 50 знаков</p>}
-          {errors?.firstName?.type === 'pattern' && <p>Только русский язык</p>}
-          {<br />}
+            className='form-control'
+            placeholder='Имя'/>
         </div>
+        {errors?.firstName?.type === 'required'&&(
+            <p>Поле обязательно для заполнения</p>
+        )}
 
-        <div>
-          <input
-            {...register('patronymic', {
-              required: true,
-              maxLength: 50,
-              pattern: /^[А-Яа-я]+$/i,
+        {errors?.firstName?.type === 'maxLength'&&(
+            <p>Поле не может содержать более 50 символов</p>
+        )}
+
+        {errors?.firstName?.type === 'pattern'&&(
+            <p>Поле заполненно некорректно</p>
+        )}
+
+
+        <div className='input-group mb-3'>
+            <input
+            {...register('middleName', {
+                required: true,
+                maxLength:50,
+                pattern: /^[А-Яа-я]+$/i
             })}
             type="text"
-            className="form-control"
-            placeholder="Отчество"
-          />
-          {errors?.patronymic?.type === 'required' && (
-            <p>Это поле не должно быть пустым</p>
-          )}
-          {errors?.patronymic?.type === 'maxLength' && (
-            <p>максpмум 50 знаков</p>
-          )}
-          {errors?.Patronymic?.type === 'pattern' && <p>Только русский язык</p>}
-          {<br />}
+            className='form-control'
+            placeholder='Отчество'/>
         </div>
+        {errors?.middleName?.type === 'required'&&(
+            <p>Поле обязательно для заполнения</p>
+        )}
 
-        <div>
-          <input
+        {errors?.middleName?.type === 'maxLength'&&(
+            <p>Поле не может содержать более 50 символов</p>
+        )}
+
+        {errors?.middleName?.type === 'pattern'&&(
+            <p>Поле заполненно некорректно</p>
+        )}
+
+        <div className='input-group mb-3'>
+            <input
             {...register('email', {
-              required: true,
-              maxLength: 100,
-              pattern: /^[A-Za-z@._-]+$/i,
+                required: true,
+                maxLength:50,
+                pattern: /^[A-Za-z@._-]+$/i
             })}
             type="text"
-            className="form-control"
-            placeholder="email"
-          />
-          {errors?.email?.type === 'required' && (
-            <p>Это поле не должно быть пустым</p>
-          )}
-          {errors?.email?.type === 'maxLength' && <p>максимум 50 знаков</p>}
-          {errors?.email?.type === 'pattern' && <p>Только русский язык</p>}
-          {<br />}
+            className='form-control'
+            placeholder='Email'/>
         </div>
+        {errors?.email?.type === 'required'&&(
+            <p>Поле обязательно для заполнения</p>
+        )}
+
+        {errors?.email?.type === 'maxLength'&&(
+            <p>Поле не может содержать более 50 символов</p>
+        )}
+
+        {errors?.email?.type === 'pattern'&&(
+            <p>Поле заполненно некорректно</p>
+        )}
         <div>
-          <input className="btn btn-outline-primary" type="submit" />
+          <input className='btn btn-outline-primary' type="submit" />
         </div>
-      </form>
-      <br />
-      <MapContainer
+        </form>
+<br></br>
+        <MapContainer
         center={center}
         zoom={10}
-        style={{ width: '100vw', height: '500px' }}
-      >
-        <TileLayer
-          url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=0ipQU18cBiwpim3T8foz"
-          attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-        />
-        <CircleMarker
-          center={center}
-          pathoptions={{ color: 'black' }}
-          radius={10}
-        />
-        <Marker position={center}>
-          <Popup>При нажатии</Popup>
-          <Tooltip>При наведении</Tooltip>
-        </Marker>
-      </MapContainer>
+        style={{
+            width:'100vw',
+            height:"500px"
+        }}
+        >
+            <TileLayer
+            url='https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=baBC3t9J46G3egoyg6Rg'
+           attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+           />
+
+            <CircleMarker
+            center={center}
+            pathOptions={{color:'black'}}
+            radius={10}
+            />
+
+           <Marker position={center}>
+            <Popup>
+                Мы находимся тут 
+            </Popup>
+            <Tooltip>При наведении</Tooltip>
+           </Marker>
+
+           <Polygon positions={centerPolygon} pathOptions={colorOptions}/>
+        </MapContainer>
     </div>
   )
 }
